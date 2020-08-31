@@ -64,7 +64,9 @@ function submitinfo(){
     places2=places.slice(0,chunkednum.length).reverse()
     for (i=0;i<chunkednum.length;i++){
         if (numtowords(chunkednum[i])!=""){cheque+=""+numtowords(chunkednum[i])+" "+places2[i]+", "}
+        if ((typeof places2[i])=="undefined"){toobig=true}
     }
+    if (toobig){cheque="A lot of ,"}
     cheque=cheque.charAt(0).toUpperCase() + cheque.slice(1)
     document.getElementById("recipientb").innerHTML="Pay "+recipient
     document.getElementById("amount").innerHTML=cheque.substring(0,cheque.length-2)+" dollars only"
