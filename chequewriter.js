@@ -62,6 +62,7 @@ function submitinfo(){
     }
     chunkednum=splitnum.chunks(3).reverse()
     places2=places.slice(0,chunkednum.length).reverse()
+    toobig=false
     for (i=0;i<chunkednum.length;i++){
         if (numtowords(chunkednum[i])!=""){cheque+=""+numtowords(chunkednum[i])+" "+places2[i]+", "}
         if ((typeof places2[i])=="undefined"){toobig=true}
