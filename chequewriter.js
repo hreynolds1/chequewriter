@@ -1,6 +1,6 @@
 function numtowords(numlist){
     for (x in numlist){
-        numlist[x]=parseInt(numlist[x])
+        if ((typeof numlist[x])=="string"){numlist[x]=parseInt(numlist[x])}
     }
     str=""
     str+=hundreds[numlist[2]]
@@ -26,63 +26,47 @@ function arraysequal(ar1,ar2){
     return match;
     
 }
+Array.prototype.chunks=function(size=1){
+    totalarray=[];
+    listlength=this.length
+    for (i=0;i+size<=listlength;i+=size){
+        totalarray.push(this.slice(i,i+size))
+    }
+    return totalarray
+}
 ones=["","one","two","three","four","five","six","seven","eight","nine"]
 tens=["","","twenty","thirty","fourty","fifty","sixty","seventy","eighty","ninety"]
 teens=["ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"]
 hundreds=["","one hundred","two hundred","three hundred","four hundred","five hundred","six hundred","seven hundred","eight hundred","nine hundred"]
+places=["","thousand","million","billion","trillion","quadrillion","quintillion","sextillion","septillion","octillion","nonillion","decillion","undecillion","duodecillion","tredecillion","quattuordecillion","quindecillion","hexdecillion","septendecillion","octodecillion","novemdecilion","vigintillion","unvigintillion","duovigintillion","quattuorvigintillion","quinvigintillion","hexvigintillion","septenvigintillion","octovigintillion","novemvigintillion","trigintillion","untrigintillion","duotrigintillion","quattuortrigintillion","quintrigintillion","hextrigintillion","septentrigintillion","octotrigintillion","novemtrigintillion"]
 function submitinfo(){
     sender=document.querySelector("#sender").value
     sender=sender.charAt(0).toUpperCase() + sender.slice(1)
     recipient=document.querySelector("#recipient").value
     recipient=recipient.charAt(0).toUpperCase() + recipient.slice(1)
-    amount=parseInt(document.querySelector("#money").value)
+    amount=document.querySelector("#money").value
     if (sender=="" || recipient=="" || amount=="" || amount==0){throw "empty field"};
     cheque=""
     splitnum=amount.toString().split("").reverse()
     for (x in splitnum){
-        splitnum[x]=parseInt(splitnum[x])
+        if ((typeof splitnum[x])=="string"){splitnum[x]=parseInt(splitnum[x])}
     }
     if (splitnum.length<3){
         while (splitnum.length<3){
             splitnum.push(0)
         }
     } else {
-        while (splitnum.length<12){
+        while (splitnum.length/3!=parseInt(splitnum.length/3)){
             splitnum.push(0)
         }
-        thousands=splitnum.slice(3,6)
-        millions=splitnum.slice(6,9)
-        billions=splitnum.slice(9,12)
     }
-    hundredsplace=splitnum.slice(0,3)
-    isbill=!(arraysequal(billions,[0,0,0]))
-    ismill=!(arraysequal(millions,[0,0,0]))
-    isthou=!(arraysequal(thousands,[0,0,0]))
-    ishund=!(arraysequal(hundredsplace,[0,0,0]))
-    if (isbill){
-        cheque+=numtowords(billions)+" billion"
-        if (!(ismill) && !(isthou) && ishund){
-            cheque+=" and "
-        } else {cheque+=", "}
-    }
-    if (ismill){
-        cheque+=numtowords(millions)+" million"
-        if (!(isthou) && ishund){
-            cheque+=" and "
-        } else {cheque+=", "}
-    }
-    if (isthou){
-        cheque+=numtowords(thousands)+" thousand"
-        if (hundredsplace[2]=="0"){
-            cheque+=" and "
-        } else {cheque+=", "}
-    }
-    cheque+=numtowords(hundredsplace)
-    for (x in splitnum){
-        splitnum[x]=parseInt(splitnum[x])
+    chunkednum=splitnum.chunks(3).reverse()
+    places2=places.slice(0,chunkednum.length).reverse()
+    for (i=0;i<chunkednum.length;i++){
+        if (numtowords(chunkednum[i])!=""){cheque+=""+numtowords(chunkednum[i])+" "+places2[i]+", "}
     }
     cheque=cheque.charAt(0).toUpperCase() + cheque.slice(1)
     document.getElementById("recipientb").innerHTML="Pay "+recipient
-    document.getElementById("amount").innerHTML=cheque+" dollars only"
+    document.getElementById("amount").innerHTML=cheque.substring(0,cheque.length-2)+" dollars only"
     document.getElementById("senderb").innerHTML="Signed "+sender
 }
