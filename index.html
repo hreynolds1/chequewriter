@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style.css">
     <title>Cheque writer</title>
-    <h1 class="center">Cheque writer</h1>
-    <input type="text" placeholder="Sender" id="sender">
-    <br>
-    <input type="text" placeholder="Recipient" id="recipient">
-    <br>
-    <input type="number" placeholder="Money amount" id="money">
-    <br>
-    <button onclick="submitinfo()">Submit</button>
-    <script type="text/javascript" src="chequewriter.js"></script>
-    <div id="cheque">
-        <p id="recipientb"></p>
-        <p id="amount"></p>
-        <p id="senderb"></p>
-    </div>
+    <main>
+        <h1 class="center">Cheque writer</h1>
+        <input type="text" placeholder="Sender" id="sender">
+        <br>
+        <input type="text" placeholder="Recipient" id="recipient">
+        <br>
+        <input type="number" placeholder="Money amount" id="money">
+        <br>
+        <button onclick="submitinfo()">Submit</button>
+        <script type="text/javascript" src="chequewriter.js"></script>
+        <div id="cheque">
+            <p id="recipientb"></p>
+            <p id="amount"></p>
+            <p id="senderb"></p>
+        </div>
+    </main>
 </html>
